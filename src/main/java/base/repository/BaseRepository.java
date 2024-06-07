@@ -10,4 +10,6 @@ public interface BaseRepository <T extends BaseEntity<ID>, ID extends Serializab
 
     T findById(ID id);
 
+    void delete(T entity);
+
 }
