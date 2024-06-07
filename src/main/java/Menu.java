@@ -1,3 +1,5 @@
+import entity.Expert;
+import entity.ExpertStatus;
 import service.admin.AdminService;
 import service.comment.CommentService;
 import service.customer.CustomerService;
@@ -10,6 +12,7 @@ import service.suggestion.SuggestionService;
 import utility.ApplicationContext;
 import utility.Validation;
 
+import java.util.List;
 import java.util.Scanner;
 
 public class Menu {
@@ -25,6 +28,10 @@ public class Menu {
     private final SubServiceService subServiceService = ApplicationContext.getSubServiceService();
     private final SuggestionService suggestionService = ApplicationContext.getSuggestionService();
     private final Expert_SubServiceService expert_subServiceService = ApplicationContext.getExpertSubServiceService();
+
+    public void publicMenu() {
+
+    }
 
     public String choosingEmail() {
         String email;
@@ -56,6 +63,41 @@ public class Menu {
             System.out.println("user not found");
             singInAdmin();
         }
+    }
+
+    public void emptyChecking(List<Long> ids) {
+        if (ids.isEmpty()) {
+            System.out.println("not found anything , try again ");
+            publicMenu();
+        }
+    }
+
+    public Long choosingExpert() {
+        Long expertId;
+        System.out.println("experts :");
+        expertService.findAll().forEach(System.out::println);
+        emptyChecking(expertService.findAll().stream().map(Expert::getId).toList());
+        while (true) {
+            System.out.println("enter expert id:");
+            try {
+                expertId = scanner.nextLong();
+                if (expertService.findById(expertId) != null) {
+                    break;
+                } else System.out.println("not found");
+            } catch (Exception e) {
+                scanner.next();
+                System.out.println(e.getMessage());
+            }
+        }
+        return expertId;
+    }
+
+    public void updateExpertStatusToConfirmed() {
+        singInAdmin();
+        Long expertId = choosingExpert();
+        Expert expert = expertService.findById(expertId);
+        expert.setExpertStatus(ExpertStatus.CONFIRMED);
+        expertService.saveOrUpdate(expert);
     }
 
 
