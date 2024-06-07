@@ -302,4 +302,20 @@ public class Menu {
         return expert;
     }
 
+    public Customer singInCustomer() {
+        System.out.println("sing in as customer");
+        Customer customer = null;
+        String email = choosingEmail();
+        String password = choosingPassword();
+        if (customerService.signIn(email, password).isPresent()) {
+            System.out.println("customer enter successfully");
+            customer = customerService.signIn(email, password).get();
+            System.out.println(customer);
+        } else {
+            System.out.println("user not found");
+            singInCustomer();
+        }
+        return customer;
+    }
+
 }
