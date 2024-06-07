@@ -212,4 +212,21 @@ public class Menu {
         return orderId;
     }
 
+    public Double choosingScore() {
+        double score;
+        while (true) {
+            System.out.println("enter a number between 0 to 5 for score :");
+            try {
+                score = scanner.nextDouble();
+                if (score <= 5 && score >= 0) {
+                    break;
+                } else System.out.println("out of range");
+            } catch (Exception e) {
+                scanner.next();
+                System.out.println(e.getMessage());
+            }
+        }
+        return score;
+    }
+
 }
