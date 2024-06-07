@@ -527,4 +527,26 @@ public class Menu {
         }
     }
 
+    public void addCustomer() {
+        Date now = new Date();
+        while (true) {
+            System.out.println("add customer");
+            List<String> personFields = addCleanlyPerson();
+            Customer customer = Customer.builder()
+                    .firstname(personFields.get(0))
+                    .lastname(personFields.get(1))
+                    .password(personFields.get(2))
+                    .email(personFields.get(3))
+                    .validity(0L)
+                    .dateOfSingUp(now)
+                    .build();
+            try {
+                customerService.saveOrUpdate(customer);
+                break;
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+            }
+        }
+    }
+
 }
