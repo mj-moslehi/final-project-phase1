@@ -408,4 +408,16 @@ public class Menu {
         return ordersIds;
     }
 
+    public Long choosingValidOrdersForSuggestion(Expert expert) {
+        List<Long> ordersIds = getOrderIdsForSuggestion(expert);
+        Long orderId = choosingOrderIdFromOrderIds(ordersIds);
+        Orders orders = ordersService.findById(orderId);
+        if (suggestionService.findByOrdersAndExpert(orders, expert).isEmpty()) {
+            return orderId;
+        } else {
+            System.out.println("repetitive order");
+            return null;
+        }
+    }
+
 }
