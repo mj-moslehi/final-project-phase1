@@ -626,4 +626,22 @@ public class Menu {
         return orderIds;
     }
 
+    public Long choosingExpertIdFromExpertIds(List<Long> expertIds) {
+        Long expertId;
+        emptyChecking(expertIds);
+        while (true) {
+            System.out.println("enter expert id:");
+            try {
+                expertId = scanner.nextLong();
+                if (expertIds.contains(expertId)) {
+                    break;
+                } else System.out.println("not found");
+            } catch (Exception e) {
+                scanner.next();
+                System.out.println(e.getMessage());
+            }
+        }
+        return expertId;
+    }
+
 }
