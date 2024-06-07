@@ -32,4 +32,19 @@ public class BaseServiceImpl<T extends BaseEntity<ID>, ID extends Serializable,
         }
     }
 
+    @Override
+    public T findById(ID id) {
+        Transaction transaction = null;
+        try (Session session = sessionFactory.getCurrentSession()) {
+            transaction = session.beginTransaction();
+            T entity = repository.findById(id);
+            transaction.commit();
+            return entity;
+        } catch (Exception e) {
+            assert transaction != null;
+            transaction.rollback();
+            return null;
+        }
+    }
+
 }
