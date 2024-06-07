@@ -11,15 +11,12 @@ import service.suggestion.SuggestionService;
 import utility.ApplicationContext;
 import utility.Validation;
 
-import java.io.FileOutputStream;
+import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 public class Menu {
 
@@ -36,46 +33,50 @@ public class Menu {
     private final Expert_SubServiceService expert_subServiceService = ApplicationContext.getExpertSubServiceService();
 
     public void publicMenu() {
-
+        addService();
+        addSubService();
+        updateSubService();
+        addAdmin();
+        addExpert();
+        addCustomer();
+        updateExpert();
+        updateCustomer();
+        choosingExpertForSubService();
+        addOrders();
+        addSuggestion();
+        choosingValidExpertForOrder();
+        updateOrderStatusToComeToPlace();
+        addComment();
+        addValidity();
+        deletingExpertFromSubService();
+        updateExpertStatusToConfirmed();
+        writeExpertPhoto();
     }
 
-    public String choosingEmail() {
-        String email;
-        while (true) {
-            System.out.println("email:");
-            email = scanner.nextLine();
-            if (Validation.isValidEmail(email)) break;
-            else System.out.println("not valid");
-        }
-        return email;
+    public void updateExpertStatusToConfirmed() {
+        singInAdmin();
+        Long expertId = choosingExpert();
+        Expert expert = expertService.findById(expertId);
+        expert.setExpertStatus(ExpertStatus.CONFIRMED);
+        expertService.saveOrUpdate(expert);
     }
 
-    public String choosingPassword() {
-        String password;
-        while (true) {
-            System.out.println("password :");
-            password = scanner.nextLine();
-            if (Validation.isValidPassword(password)) break;
-            else System.out.println("not valid");
-        }
-        return password;
+    public void updateExpert() {
+        Expert expert = singInExpert();
+        System.out.println("update expert");
+        System.out.println("enter new password");
+        expert.setPassword(choosingPassword());
+        expertService.saveOrUpdate(expert);
+        System.out.println("updating is done");
     }
 
-    public void singInAdmin() {
-        System.out.println("sign in as admin :");
-        if (adminService.signIn(choosingEmail(), choosingPassword()).isPresent()) {
-            System.out.println("admin enter successfully");
-        } else {
-            System.out.println("user not found");
-            singInAdmin();
-        }
-    }
-
-    public void emptyChecking(List<Long> ids) {
-        if (ids.isEmpty()) {
-            System.out.println("not found anything , try again ");
-            publicMenu();
-        }
+    public void updateCustomer() {
+        Customer customer = singInCustomer();
+        System.out.println("update customer");
+        System.out.println("enter new password");
+        customer.setPassword(choosingPassword());
+        customerService.saveOrUpdate(customer);
+        System.out.println("updating is done");
     }
 
     public Long choosingExpert() {
@@ -96,53 +97,6 @@ public class Menu {
             }
         }
         return expertId;
-    }
-
-    public void updateExpertStatusToConfirmed() {
-        singInAdmin();
-        Long expertId = choosingExpert();
-        Expert expert = expertService.findById(expertId);
-        expert.setExpertStatus(ExpertStatus.CONFIRMED);
-        expertService.saveOrUpdate(expert);
-    }
-
-    public Expert singInExpert() {
-        System.out.println("sing in as expert :");
-        Expert expert = null;
-        String email = choosingEmail();
-        String password = choosingPassword();
-        if (expertService.signIn(email, password).isPresent()) {
-            expert = expertService.signIn(email, password).get();
-            if (expert.getExpertStatus().equals(ExpertStatus.CONFIRMED)) {
-                System.out.println("expert enter successfully");
-                System.out.println(expert);
-            } else {
-                System.out.println("expert haven't confirmed");
-                singInExpert();
-            }
-        } else {
-            System.out.println("user not found");
-            singInExpert();
-        }
-        return expert;
-    }
-
-    public void updateExpert() {
-        Expert expert = singInExpert();
-        System.out.println("update expert");
-        System.out.println("enter new password");
-        expert.setPassword(choosingPassword());
-        expertService.saveOrUpdate(expert);
-        System.out.println("updating is done");
-    }
-
-    public void updateCustomer() {
-        Customer customer = singInCustomer();
-        System.out.println("update customer");
-        System.out.println("enter new password");
-        customer.setPassword(choosingPassword());
-        customerService.saveOrUpdate(customer);
-        System.out.println("updating is done");
     }
 
     public void deletingExpertFromSubService() {
@@ -198,6 +152,13 @@ public class Menu {
         subService.setDescription(description);
         subServiceService.saveOrUpdate(subService);
 
+    }
+
+    public void emptyChecking(List<Long> ids) {
+        if (ids.isEmpty()) {
+            System.out.println("not found anything , try again ");
+            publicMenu();
+        }
     }
 
     public Long choosingOrderIdFromOrderIds(List<Long> orderIds) {
@@ -288,6 +249,29 @@ public class Menu {
         customerService.saveOrUpdate(customer);
         ordersService.saveOrUpdate(orders);
     }
+
+    public String choosingPassword() {
+        String password;
+        while (true) {
+            System.out.println("password :");
+            password = scanner.nextLine();
+            if (Validation.isValidPassword(password)) break;
+            else System.out.println("not valid");
+        }
+        return password;
+    }
+
+    public String choosingEmail() {
+        String email;
+        while (true) {
+            System.out.println("email:");
+            email = scanner.nextLine();
+            if (Validation.isValidEmail(email)) break;
+            else System.out.println("not valid");
+        }
+        return email;
+    }
+
     public Expert singInExpert() {
         System.out.println("sing in as expert :");
         Expert expert = null;
@@ -526,6 +510,25 @@ public class Menu {
                     .build();
             try {
                 expertService.saveOrUpdate(expert);
+                break;
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+            }
+        }
+    }
+
+    public void addAdmin() {
+        while (true) {
+            System.out.println("add admin");
+            List<String> personFields = addCleanlyPerson();
+            Admin admin = Admin.builder()
+                    .firstname(personFields.get(0))
+                    .lastname(personFields.get(1))
+                    .password(personFields.get(2))
+                    .email(personFields.get(3))
+                    .build();
+            try {
+                adminService.saveOrUpdate(admin);
                 break;
             } catch (Exception e) {
                 System.out.println(e.getMessage());
