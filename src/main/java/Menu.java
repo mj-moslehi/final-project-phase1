@@ -328,4 +328,13 @@ public class Menu {
         }
     }
 
+    public void choosingExpertForSubService() {
+        singInAdmin();
+        System.out.println("choosing expert for a sub service");
+        Expert expert = expertService.findById(choosingExpert());
+        if (expert.getExpertStatus().equals(ExpertStatus.CONFIRMED))
+            choosingSubServiceForExpert(expert);
+        else System.out.println("the expert haven't confirmed");
+    }
+
 }
