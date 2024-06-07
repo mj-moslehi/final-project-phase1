@@ -470,4 +470,35 @@ public class Menu {
         return service;
     }
 
+    public void addSubService() {
+        singInAdmin();
+        while (true) {
+            System.out.println("add sub service");
+            System.out.println("sub service name:");
+            String name = choosingName();
+
+            Service service = choosingService();
+
+            System.out.println("base price");
+            Long basePrice = choosingPrice();
+
+            System.out.println("description :");
+            String description = choosingText();
+
+            SubService subService = SubService.builder()
+                    .name(name)
+                    .description(description)
+                    .basePrice(basePrice)
+                    .service(service)
+                    .build();
+            try {
+                subServiceService.saveOrUpdate(subService);
+                break;
+            } catch (Exception e) {
+                System.out.println("Repetitive name");
+                System.out.println(e.getMessage());
+            }
+        }
+    }
+
 }
