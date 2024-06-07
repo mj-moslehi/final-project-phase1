@@ -281,5 +281,25 @@ public class Menu {
         customerService.saveOrUpdate(customer);
         ordersService.saveOrUpdate(orders);
     }
+    public Expert singInExpert() {
+        System.out.println("sing in as expert :");
+        Expert expert = null;
+        String email = choosingEmail();
+        String password = choosingPassword();
+        if (expertService.signIn(email, password).isPresent()) {
+            expert = expertService.signIn(email, password).get();
+            if (expert.getExpertStatus().equals(ExpertStatus.CONFIRMED)) {
+                System.out.println("expert enter successfully");
+                System.out.println(expert);
+            } else {
+                System.out.println("expert haven't confirmed");
+                singInExpert();
+            }
+        } else {
+            System.out.println("user not found");
+            singInExpert();
+        }
+        return expert;
+    }
 
 }
