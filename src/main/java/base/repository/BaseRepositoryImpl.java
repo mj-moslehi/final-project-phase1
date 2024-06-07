@@ -12,7 +12,7 @@ import java.util.List;
 @AllArgsConstructor
 
 public abstract class BaseRepositoryImpl<T extends BaseEntity<ID>, ID extends Serializable>
-        implements BaseRepository<T, ID>{
+        implements BaseRepository<T, ID> {
 
     protected SessionFactory sessionFactory;
 
@@ -28,8 +28,8 @@ public abstract class BaseRepositoryImpl<T extends BaseEntity<ID>, ID extends Se
     public T findById(ID id) {
         Session session = sessionFactory.getCurrentSession();
         Query<T> query =
-                session.createQuery(String.format("from %s where id =:id",getEntity()),getEntityClass());
-        query.setParameter("id",id);
+                session.createQuery(String.format("from %s where id =:id", getEntity()), getEntityClass());
+        query.setParameter("id", id);
         return query.getSingleResultOrNull();
     }
 
