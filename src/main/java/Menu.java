@@ -178,4 +178,22 @@ public class Menu {
         return subService;
     }
 
+    public void updateSubService() {
+        singInAdmin();
+        System.out.println("updating sub service");
+
+        SubService subService = choosingSubService();
+
+        System.out.println("base price:");
+        Long basePrice = choosingPrice();
+
+        System.out.println("description :");
+        String description = choosingText();
+
+        subService.setBasePrice(basePrice);
+        subService.setDescription(description);
+        subServiceService.saveOrUpdate(subService);
+
+    }
+
 }
