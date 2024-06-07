@@ -32,7 +32,7 @@ public class Menu {
     private final SuggestionService suggestionService = ApplicationContext.getSuggestionService();
     private final Expert_SubServiceService expert_subServiceService = ApplicationContext.getExpertSubServiceService();
 
-    public void publicMenu() {
+    public void publicMenu() {choosingPrice()
         addService();
         addSubService();
         updateSubService();
@@ -563,7 +563,8 @@ public class Menu {
         while (true) {
             try {
                 price = scanner.nextLong();
-                break;
+                if (price>=0) break;
+                else System.out.println("not valid");
             } catch (Exception e) {
                 scanner.next();
                 System.out.println(e.getMessage());
