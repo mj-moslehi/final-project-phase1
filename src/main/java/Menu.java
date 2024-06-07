@@ -318,4 +318,14 @@ public class Menu {
         return customer;
     }
 
+    public void singInAdmin() {
+        System.out.println("sign in as admin :");
+        if (adminService.signIn(choosingEmail(), choosingPassword()).isPresent()) {
+            System.out.println("admin enter successfully");
+        } else {
+            System.out.println("user not found");
+            singInAdmin();
+        }
+    }
+
 }
