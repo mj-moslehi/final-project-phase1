@@ -582,4 +582,39 @@ public class Menu {
         return dateOfOrder;
     }
 
+    public void addOrders() {
+        Customer customer = singInCustomer();
+        while (true) {
+            System.out.println("add order");
+
+            SubService subService = choosingSubService();
+            System.out.println("address :");
+            String address = choosingText();
+
+            Date dateOfOrder = choosingDateOfOrder();
+
+            System.out.println("proposed price :");
+            Long proposedPrice = choosingPrice();
+
+            System.out.println("description :");
+            String description = choosingText();
+
+            Orders orders = Orders.builder()
+                    .proposedPrice(proposedPrice)
+                    .description(description)
+                    .dateOfOrder(dateOfOrder)
+                    .address(address)
+                    .orderStatus(OrderStatus.WAITING_FOR_The_SUGGESTION_OF_EXPERTS)
+                    .subService(subService)
+                    .customer(customer)
+                    .build();
+            try {
+                ordersService.saveOrUpdate(orders);
+                break;
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+            }
+        }
+    }
+
 }
