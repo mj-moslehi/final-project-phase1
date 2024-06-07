@@ -439,4 +439,15 @@ public class Menu {
         }
     }
 
+    public String choosingText() {
+        String description;
+        scanner.nextLine();
+        while (true) {
+            description = scanner.nextLine();
+            if (Validation.isValidText(description)) break;
+            else System.out.println("not valid");
+        }
+        return description;
+    }
+
 }
