@@ -196,4 +196,20 @@ public class Menu {
 
     }
 
+    public Long choosingOrderIdFromOrderIds(List<Long> orderIds) {
+        Long orderId;
+        while (true) {
+            System.out.println("enter order id :");
+            try {
+                orderId = scanner.nextLong();
+                if (orderIds.contains(orderId)) break;
+                else System.out.println("not found");
+            } catch (Exception e) {
+                scanner.next();
+                System.out.println(e.getMessage());
+            }
+        }
+        return orderId;
+    }
+
 }
