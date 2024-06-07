@@ -11,6 +11,7 @@ import service.suggestion.SuggestionService;
 import utility.ApplicationContext;
 import utility.Validation;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
 
@@ -370,6 +371,26 @@ public class Menu {
         if (orderId != null) {
             saveSuggestion(expert, orderId);
         } else System.out.println("there isn't any order for you");
+    }
+
+    public void saveSuggestion(Expert expert, Long orderId) {
+        Date now = new Date();
+        System.out.println("proposed price :");
+        Long proposedPrice = choosingPrice();
+
+        Integer timeOfJob = choosingTimeOfJob();
+
+        Suggestion suggestion = Suggestion.builder()
+                .date(now)
+                .proposedPrice(proposedPrice)
+                .timeOfJob(timeOfJob)
+                .expert(expert)
+                .orders(ordersService.findById(orderId))
+                .build();
+        suggestionService.saveOrUpdate(suggestion);
+        Orders orders = suggestion.getOrders();
+        orders.setOrderStatus(OrderStatus.WAITING_FOR_SPECIALIST_SELECTION);
+        ordersService.saveOrUpdate(orders);
     }
 
 }
