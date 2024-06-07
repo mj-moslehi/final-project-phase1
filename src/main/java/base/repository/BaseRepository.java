@@ -8,4 +8,6 @@ public interface BaseRepository <T extends BaseEntity<ID>, ID extends Serializab
 
     T saveOrUpdate(T entity);
 
+    T findById(ID id);
+
 }
