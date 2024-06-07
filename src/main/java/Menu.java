@@ -617,4 +617,13 @@ public class Menu {
         }
     }
 
+    public List<Long> getOrderIdsWithOrderStatusAndCustomer(OrderStatus orderStatus, Customer customer) {
+        List<Orders> ordersList = ordersService.findByCustomer(customer).stream()
+                .filter(orders -> orders.getOrderStatus().equals(orderStatus)).toList();
+        List<Long> orderIds = ordersList.stream().map(Orders::getId).toList();
+        emptyChecking(orderIds);
+        orderIds.stream().map(ordersService::findById).forEach(System.out::println);
+        return orderIds;
+    }
+
 }
