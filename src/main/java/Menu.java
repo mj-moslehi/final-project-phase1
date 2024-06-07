@@ -699,4 +699,11 @@ public class Menu {
         return image;
     }
 
+    public void writeExpertPhoto() {
+        singInAdmin();
+        Long expertId = choosingExpert();
+        Expert expert = expertService.findById(expertId);
+        writeImage(expert.getImage());
+    }
+
 }
