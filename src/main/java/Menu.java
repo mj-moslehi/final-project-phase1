@@ -363,4 +363,13 @@ public class Menu {
         return timeOfJob;
     }
 
+    public void addSuggestion() {
+        Expert expert = singInExpert();
+        System.out.println("add suggestion");
+        Long orderId = choosingValidOrdersForSuggestion(expert);
+        if (orderId != null) {
+            saveSuggestion(expert, orderId);
+        } else System.out.println("there isn't any order for you");
+    }
+
 }
