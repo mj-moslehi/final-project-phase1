@@ -1,6 +1,7 @@
 import entity.Customer;
 import entity.Expert;
 import entity.ExpertStatus;
+import entity.SubService;
 import service.admin.AdminService;
 import service.comment.CommentService;
 import service.customer.CustomerService;
@@ -138,6 +139,16 @@ public class Menu {
         customer.setPassword(choosingPassword());
         customerService.saveOrUpdate(customer);
         System.out.println("updating is done");
+    }
+
+    public void deletingExpertFromSubService() {
+        singInAdmin();
+        Expert expert = expertService.findById(choosingExpert());
+        SubService subService = choosingSubService();
+        if (!expert_subServiceService.findByExpertAndSubService(expert, subService).isEmpty()) {
+            expert_subServiceService.delete(
+                    expert_subServiceService.findByExpertAndSubService(expert, subService).get(0));
+        } else System.out.println("you haven't chosen this sub service for this expert");
     }
 
 }
