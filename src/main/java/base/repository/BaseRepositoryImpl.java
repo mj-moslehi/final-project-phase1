@@ -2,6 +2,7 @@ package base.repository;
 
 import base.entity.BaseEntity;
 import lombok.AllArgsConstructor;
+import org.hibernate.SessionFactory;
 
 import java.io.Serializable;
 @AllArgsConstructor
@@ -9,6 +10,6 @@ import java.io.Serializable;
 public abstract class BaseRepositoryImpl<T extends BaseEntity<ID>, ID extends Serializable>
         implements BaseRepository<T, ID>{
 
-
+    protected SessionFactory sessionFactory;
 
 }
