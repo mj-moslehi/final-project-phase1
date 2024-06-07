@@ -3,7 +3,9 @@ package base.service;
 import base.entity.BaseEntity;
 import base.repository.BaseRepository;
 import lombok.RequiredArgsConstructor;
+import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 
 import java.io.Serializable;
 
@@ -14,4 +16,20 @@ public class BaseServiceImpl<T extends BaseEntity<ID>, ID extends Serializable,
         implements BaseService<T, ID> {
     private final R repository;
     private final SessionFactory sessionFactory;
+
+    @Override
+    public T saveOrUpdate(T entity) {
+        Transaction transaction = null;
+        try (Session session = sessionFactory.getCurrentSession()) {
+            transaction = session.beginTransaction();
+            T t = repository.saveOrUpdate(entity);
+            transaction.commit();
+            return t;
+        } catch (Exception e) {
+            assert transaction != null;
+            transaction.rollback();
+            return null;
+        }
+    }
+
 }
