@@ -32,7 +32,7 @@ public class Menu {
     private final SuggestionService suggestionService = ApplicationContext.getSuggestionService();
     private final Expert_SubServiceService expert_subServiceService = ApplicationContext.getExpertSubServiceService();
 
-    public void publicMenu() {choosingPrice()
+    public void publicMenu() {
         addService();
         addSubService();
         updateSubService();
