@@ -251,7 +251,7 @@ public class Menu {
         ordersService.saveOrUpdate(orders);
     }
 
-    public void askIfExpertComeToPlace() {
+    public void updateOrderStatusToComeToPlace() {
         Customer customer = singInCustomer();
         List<Long> ordersIds = getOrderIdsWithOrderStatusAndCustomer
                 (OrderStatus.WAITING_FOR_THE_SPECIALIST_TO_COME_TO_YOUR_PLACE, customer);
