@@ -724,4 +724,21 @@ public class Menu {
         return path;
     }
 
+    public Path choosingPathForWriting() {
+        Path path;
+        scanner.nextLine();
+        while (true) {
+            String pathString = scanner.nextLine();
+            try {
+                path = Paths.get(pathString);
+                if (Validation.isValidImage(pathString)) {
+                    break;
+                } else System.out.println("not valid");
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+            }
+        }
+        return path;
+    }
+
 }
