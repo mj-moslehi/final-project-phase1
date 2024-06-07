@@ -393,4 +393,19 @@ public class Menu {
         ordersService.saveOrUpdate(orders);
     }
 
+    public List<Long> getOrderIdsForSuggestion(Expert expert) {
+        List<Orders> ordersList = expert_subServiceService.findSubServiceByExpert(expert).stream()
+                .map(SubService::getOrders).flatMap(List::stream).toList();
+
+        List<Long> ordersIds = ordersList.stream()
+                .filter(orders -> orders.getOrderStatus().equals(
+                        OrderStatus.WAITING_FOR_The_SUGGESTION_OF_EXPERTS)
+                        ||
+                        orders.getOrderStatus().equals(
+                                OrderStatus.WAITING_FOR_SPECIALIST_SELECTION)).map(Orders::getId).toList();
+        emptyChecking(ordersIds);
+        ordersIds.stream().map(ordersService::findById).forEach(System.out::println);
+        return ordersIds;
+    }
+
 }
