@@ -549,4 +549,18 @@ public class Menu {
         }
     }
 
+    public Long choosingPrice() {
+        long price;
+        while (true) {
+            try {
+                price = scanner.nextLong();
+                break;
+            } catch (Exception e) {
+                scanner.next();
+                System.out.println(e.getMessage());
+            }
+        }
+        return price;
+    }
+
 }
