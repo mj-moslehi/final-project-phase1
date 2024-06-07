@@ -8,6 +8,7 @@ import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 
 import java.io.Serializable;
+import java.util.List;
 
 @RequiredArgsConstructor
 
@@ -57,6 +58,21 @@ public class BaseServiceImpl<T extends BaseEntity<ID>, ID extends Serializable,
         } catch (Exception e) {
             assert transaction != null;
             transaction.rollback();
+        }
+    }
+
+    @Override
+    public List<T> findAll() {
+        Transaction transaction = null;
+        try (Session session = sessionFactory.getCurrentSession()) {
+            transaction = session.beginTransaction();
+            List<T> entity = repository.findAll();
+            transaction.commit();
+            return entity;
+        } catch (Exception e) {
+            assert transaction != null;
+            transaction.rollback();
+            return null;
         }
     }
 
