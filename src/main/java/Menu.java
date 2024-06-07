@@ -644,4 +644,27 @@ public class Menu {
         return expertId;
     }
 
+    public void choosingValidExpertForOrder() {
+
+        List<Long> orderIds = getOrderIdsWithOrderStatusAndCustomer
+                (OrderStatus.WAITING_FOR_SPECIALIST_SELECTION, singInCustomer());
+        Orders orders = ordersService.findById(choosingOrderIdFromOrderIds(orderIds));
+
+        System.out.println("suggestions for your order:");
+        suggestionService.findByOrders(orders).forEach(System.out::println);
+
+        List<Expert> expertList = suggestionService.findByOrders(orders).stream()
+                .map(Suggestion::getExpert).toList();
+
+        List<Long> expertIds = expertList.stream().map(Expert::getId).toList();
+
+        System.out.println("the experts that you can choose :");
+        expertList.forEach(System.out::println);
+        Long expertId = choosingExpertIdFromExpertIds(expertIds);
+        orders.setExpert(expertService.findById(expertId));
+        orders.setOrderStatus(OrderStatus.WAITING_FOR_THE_SPECIALIST_TO_COME_TO_YOUR_PLACE);
+        ordersService.saveOrUpdate(orders);
+
+    }
+
 }
