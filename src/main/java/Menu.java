@@ -151,4 +151,11 @@ public class Menu {
         } else System.out.println("you haven't chosen this sub service for this expert");
     }
 
+    public List<Long> getSubServicesWithService() {
+        List<SubService> subServiceList = subServiceService.findByService(choosingService());
+        System.out.println("sub services :");
+        subServiceList.forEach(System.out::println);
+        return subServiceList.stream().map(SubService::getId).toList();
+    }
+
 }
