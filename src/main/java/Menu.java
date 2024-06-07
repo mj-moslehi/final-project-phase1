@@ -337,4 +337,15 @@ public class Menu {
         else System.out.println("the expert haven't confirmed");
     }
 
+    public void choosingSubServiceForExpert(Expert expert) {
+        SubService subService = choosingSubService();
+        if (expert_subServiceService.findByExpertAndSubService(expert, subService).isEmpty()) {
+            Expert_SubService expert_subService = Expert_SubService.builder()
+                    .expert(expert)
+                    .subService(subService)
+                    .build();
+            expert_subServiceService.saveOrUpdate(expert_subService);
+        } else System.out.println("repetitive sub service");
+    }
+
 }
