@@ -48,4 +48,6 @@ public abstract class BaseRepositoryImpl<T extends BaseEntity<ID>, ID extends Se
 
     public abstract Class<T> getEntityClass();
 
+    public abstract String getEntity();
+
 }
