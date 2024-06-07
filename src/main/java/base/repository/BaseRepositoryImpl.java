@@ -7,6 +7,8 @@ import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
 
 import java.io.Serializable;
+import java.util.List;
+
 @AllArgsConstructor
 
 public abstract class BaseRepositoryImpl<T extends BaseEntity<ID>, ID extends Serializable>
@@ -35,6 +37,13 @@ public abstract class BaseRepositoryImpl<T extends BaseEntity<ID>, ID extends Se
     public void delete(T entity) {
         Session session = sessionFactory.getCurrentSession();
         session.remove(entity);
+    }
+
+    @Override
+    public List<T> findAll() {
+        Session session = sessionFactory.getCurrentSession();
+        Query<T> query = session.createQuery(String.format("from %s", getEntity()), getEntityClass());
+        return query.getResultList();
     }
 
 }
