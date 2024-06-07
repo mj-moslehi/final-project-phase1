@@ -15,6 +15,7 @@ import java.util.List;
 public class BaseServiceImpl<T extends BaseEntity<ID>, ID extends Serializable,
         R extends BaseRepository<T, ID>>
         implements BaseService<T, ID> {
+
     private final R repository;
     private final SessionFactory sessionFactory;
 
@@ -75,5 +76,4 @@ public class BaseServiceImpl<T extends BaseEntity<ID>, ID extends Serializable,
             return null;
         }
     }
-
 }
