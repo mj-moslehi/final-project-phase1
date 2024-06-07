@@ -262,4 +262,24 @@ public class Menu {
 
     }
 
+    public void addValidity() {
+        Customer customer = singInCustomer();
+        List<Long> ordersIds = getOrderIdsWithOrderStatusAndCustomer(OrderStatus.DONE, customer);
+
+        Long orderId = choosingOrderIdFromOrderIds(ordersIds);
+        Orders orders = ordersService.findById(orderId);
+        Expert expert = orders.getExpert();
+
+        Long validity = suggestionService.findByOrdersAndExpert(
+                orders, expert).get(0).getProposedPrice();
+
+        expert.setValidity(validity + expert.getValidity());
+
+        customer.setValidity(customer.getValidity() - validity);
+        orders.setOrderStatus(OrderStatus.PAID);
+        expertService.saveOrUpdate(expert);
+        customerService.saveOrUpdate(customer);
+        ordersService.saveOrUpdate(orders);
+    }
+
 }
