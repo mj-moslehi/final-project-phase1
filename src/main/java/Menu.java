@@ -420,4 +420,23 @@ public class Menu {
         }
     }
 
+    public void addService() {
+        singInAdmin();
+        while (true) {
+            System.out.println("add service");
+            System.out.println("service name :");
+            String name = choosingName();
+
+            Service service = Service.builder().name(name).build();
+            try {
+                serviceService.saveOrUpdate(service);
+                break;
+            } catch (Exception e) {
+                System.out.println("Repetitive name");
+                System.out.println(e.getMessage());
+
+            }
+        }
+    }
+
 }
