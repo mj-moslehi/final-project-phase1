@@ -158,4 +158,24 @@ public class Menu {
         return subServiceList.stream().map(SubService::getId).toList();
     }
 
+    public SubService choosingSubService() {
+        SubService subService;
+        List<Long> subServiceIds = getSubServicesWithService();
+        emptyChecking(subServiceIds);
+        while (true) {
+            System.out.println("enter sub service id: ");
+            try {
+                Long subServiceId = scanner.nextLong();
+                if (subServiceIds.contains(subServiceId)) {
+                    subService = subServiceService.findById(subServiceId);
+                    break;
+                } else System.out.println("not found");
+            } catch (Exception e) {
+                scanner.next();
+                System.out.println(e.getMessage());
+            }
+        }
+        return subService;
+    }
+
 }
