@@ -12,6 +12,8 @@ import utility.ApplicationContext;
 import utility.Validation;
 
 import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Date;
@@ -704,6 +706,22 @@ public class Menu {
         Long expertId = choosingExpert();
         Expert expert = expertService.findById(expertId);
         writeImage(expert.getImage());
+    }
+
+    public Path choosingPathForReading() {
+        Path path;
+        while (true) {
+            String pathString = scanner.nextLine();
+            try {
+                path = Paths.get(pathString);
+                if (Validation.isValidImage(pathString) && Files.size(path) / 1024 <= 300) {
+                    break;
+                } else System.out.println("not valid");
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+            }
+        }
+        return path;
     }
 
 }
