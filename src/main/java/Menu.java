@@ -450,4 +450,24 @@ public class Menu {
         return description;
     }
 
+    public Service choosingService() {
+        Service service;
+        serviceService.findAll().forEach(System.out::println);
+        emptyChecking(serviceService.findAll().stream().map(Service::getId).toList());
+        while (true) {
+            System.out.println("enter service id :");
+            try {
+                Long serviceId = scanner.nextLong();
+                if (serviceService.findById(serviceId) != null) {
+                    service = serviceService.findById(serviceId);
+                    break;
+                } else System.out.println("not found");
+            } catch (Exception e) {
+                scanner.next();
+                System.out.println(e.getMessage());
+            }
+        }
+        return service;
+    }
+
 }
