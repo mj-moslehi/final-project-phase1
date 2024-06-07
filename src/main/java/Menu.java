@@ -501,4 +501,30 @@ public class Menu {
         }
     }
 
+    public void addExpert() {
+        Date now = new Date();
+        while (true) {
+            System.out.println("add expert");
+            List<String> personFields = addCleanlyPerson();
+            byte[] image = readImage();
+            Expert expert = Expert.builder()
+                    .firstname(personFields.get(0))
+                    .lastname(personFields.get(1))
+                    .password(personFields.get(2))
+                    .email(personFields.get(3))
+                    .image(image)
+                    .score(0.0)
+                    .expertStatus(ExpertStatus.New)
+                    .validity(0L)
+                    .dateOfSingUp(now)
+                    .build();
+            try {
+                expertService.saveOrUpdate(expert);
+                break;
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+            }
+        }
+    }
+
 }
