@@ -667,4 +667,14 @@ public class Menu {
 
     }
 
+    public String choosingName() {
+        String name;
+        while (true) {
+            name = scanner.nextLine();
+            if (Validation.isValidName(name)) break;
+            else System.out.println("not valid");
+        }
+        return name;
+    }
+
 }
