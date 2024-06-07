@@ -46,4 +46,6 @@ public abstract class BaseRepositoryImpl<T extends BaseEntity<ID>, ID extends Se
         return query.getResultList();
     }
 
+    public abstract Class<T> getEntityClass();
+
 }
