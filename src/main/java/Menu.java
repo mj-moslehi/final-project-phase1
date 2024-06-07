@@ -11,6 +11,7 @@ import service.suggestion.SuggestionService;
 import utility.ApplicationContext;
 import utility.Validation;
 
+import java.nio.file.Files;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Date;
@@ -685,6 +686,17 @@ public class Menu {
         String lastname = choosingName();
 
         return Arrays.asList(firstname, lastname, choosingPassword(), choosingEmail());
+    }
+
+    public byte[] readImage() {
+        byte[] image = null;
+        System.out.println("enter the photo's path");
+        try {
+            image = Files.readAllBytes(choosingPathForReading());
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        return image;
     }
 
 }
