@@ -348,4 +348,19 @@ public class Menu {
         } else System.out.println("repetitive sub service");
     }
 
+    public Integer choosingTimeOfJob() {
+        int timeOfJob;
+        while (true) {
+            System.out.println("how much hours will it take ? :");
+            try {
+                timeOfJob = scanner.nextInt();
+                break;
+            } catch (Exception e) {
+                scanner.next();
+                System.out.println(e.getMessage());
+            }
+        }
+        return timeOfJob;
+    }
+
 }
