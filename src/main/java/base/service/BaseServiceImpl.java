@@ -47,4 +47,17 @@ public class BaseServiceImpl<T extends BaseEntity<ID>, ID extends Serializable,
         }
     }
 
+    @Override
+    public void delete(T t) {
+        Transaction transaction = null;
+        try (Session session = sessionFactory.getCurrentSession()) {
+            transaction = session.beginTransaction();
+            repository.delete(t);
+            transaction.commit();
+        } catch (Exception e) {
+            assert transaction != null;
+            transaction.rollback();
+        }
+    }
+
 }
