@@ -1,3 +1,4 @@
+import entity.Customer;
 import entity.Expert;
 import entity.ExpertStatus;
 import service.admin.AdminService;
@@ -127,6 +128,15 @@ public class Menu {
         System.out.println("enter new password");
         expert.setPassword(choosingPassword());
         expertService.saveOrUpdate(expert);
+        System.out.println("updating is done");
+    }
+
+    public void updateCustomer() {
+        Customer customer = singInCustomer();
+        System.out.println("update customer");
+        System.out.println("enter new password");
+        customer.setPassword(choosingPassword());
+        customerService.saveOrUpdate(customer);
         System.out.println("updating is done");
     }
 
