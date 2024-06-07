@@ -31,4 +31,10 @@ public abstract class BaseRepositoryImpl<T extends BaseEntity<ID>, ID extends Se
         return query.getSingleResultOrNull();
     }
 
+    @Override
+    public void delete(T entity) {
+        Session session = sessionFactory.getCurrentSession();
+        session.remove(entity);
+    }
+
 }
