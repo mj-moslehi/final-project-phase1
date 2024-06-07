@@ -1,7 +1,4 @@
-import entity.Customer;
-import entity.Expert;
-import entity.ExpertStatus;
-import entity.SubService;
+import entity.*;
 import service.admin.AdminService;
 import service.comment.CommentService;
 import service.customer.CustomerService;
@@ -227,6 +224,31 @@ public class Menu {
             }
         }
         return score;
+    }
+
+    public void addComment() {
+        Customer customer = singInCustomer();
+        System.out.println("add comment");
+
+        List<Long> ordersIds = getOrderIdsWithOrderStatusAndCustomer(OrderStatus.STARTED, customer);
+
+        Long orderId = choosingOrderIdFromOrderIds(ordersIds);
+
+        Double score = choosingScore();
+
+        System.out.println("description:");
+        String commentPart = choosingText();
+
+        Comment comment = Comment.builder()
+                .comment(commentPart)
+                .score(score)
+                .expert(ordersService.findById(orderId).getExpert())
+                .customer(customer)
+                .build();
+        commentService.saveOrUpdate(comment);
+        Orders orders = ordersService.findById(orderId);
+        orders.setOrderStatus(OrderStatus.DONE);
+        ordersService.saveOrUpdate(orders);
     }
 
 }
