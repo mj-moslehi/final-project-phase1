@@ -12,6 +12,7 @@ import utility.ApplicationContext;
 import utility.Validation;
 
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
@@ -675,6 +676,15 @@ public class Menu {
             else System.out.println("not valid");
         }
         return name;
+    }
+
+    public List<String> addCleanlyPerson() {
+        System.out.println("first name:");
+        String firstname = choosingName();
+        System.out.println("last name:");
+        String lastname = choosingName();
+
+        return Arrays.asList(firstname, lastname, choosingPassword(), choosingEmail());
     }
 
 }
