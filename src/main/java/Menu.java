@@ -11,6 +11,7 @@ import service.suggestion.SuggestionService;
 import utility.ApplicationContext;
 import utility.Validation;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
@@ -561,6 +562,24 @@ public class Menu {
             }
         }
         return price;
+    }
+
+    public Date choosingDateOfOrder() {
+        Date dateOfOrder;
+        while (true) {
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+            System.out.println("when do you want order ? (yyyy-MM-dd)");
+            String dateString = scanner.nextLine();
+            try {
+                if (Validation.isValidDateString(dateString)) {
+                    dateOfOrder = sdf.parse(dateString);
+                    break;
+                } else System.out.println("not valid");
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+            }
+        }
+        return dateOfOrder;
     }
 
 }
