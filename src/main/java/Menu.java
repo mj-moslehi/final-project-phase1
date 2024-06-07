@@ -11,6 +11,7 @@ import service.suggestion.SuggestionService;
 import utility.ApplicationContext;
 import utility.Validation;
 
+import java.io.FileOutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -739,6 +740,16 @@ public class Menu {
             }
         }
         return path;
+    }
+
+    public void writeImage(byte[] image) {
+        System.out.println("enter destination path for saving photo");
+        Path path = choosingPathForWriting();
+        try (FileOutputStream fos = new FileOutputStream(path.toString())) {
+            fos.write(image);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
     }
 
 }
